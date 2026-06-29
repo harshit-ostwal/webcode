@@ -27,6 +27,17 @@ const envSchema = z
     DATABASE_URL: zString("DATABASE_URL", 1, 2048),
 
     COOKIE_SECRET_KEY: zString("COOKIE_SECRET_KEY", 1, 2048),
+
+    ACCESS_TOKEN_SECRET: zString("ACCESS_TOKEN_SECRET", 1, 512),
+    ACCESS_TOKEN_EXPIRY: zString("ACCESS_TOKEN_EXPIRY", 1, 32),
+    REFRESH_TOKEN_SECRET: zString("REFRESH_TOKEN_SECRET", 1, 512),
+    REFRESH_TOKEN_EXPIRY: zString("REFRESH_TOKEN_EXPIRY", 1, 32),
+    REFRESH_TOKEN_EXPIRY_MS: zCoerce("REFRESH_TOKEN_EXPIRY_MS", "number", {
+      min: 1,
+      max: Number.MAX_SAFE_INTEGER,
+      int: true,
+      positive: true,
+    }),
   })
   .strip();
 
