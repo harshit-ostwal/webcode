@@ -10,6 +10,7 @@ const envSchema = z.object({
     "production",
     "testing",
   ]),
+  NEXT_PUBLIC_SOCKET_URL: zUrl("NEXT_PUBLIC_SOCKET_URL"),
 });
 
 export default envSchema;
