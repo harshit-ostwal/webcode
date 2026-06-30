@@ -19,19 +19,8 @@ class UserController {
     ).send(res);
   });
 
-  getUserById = asyncHandler(async (req, res) => {
-    const id = req.params.id;
-
-    const user = await this.#userService.getUserById(id);
-
-    return ApiResponse.ok(
-      user ? new UserDto(user) : null,
-      UserMessages.Success.FETCHED_USER_SUCCESSFULLY,
-    ).send(res);
-  });
-
   updateUser = asyncHandler(async (req, res) => {
-    const id = req.params.id;
+    const id = req.user.id;
     const data = req.body;
 
     const user = await this.#userService.updateUser(id, data);
@@ -43,7 +32,7 @@ class UserController {
   });
 
   deleteUser = asyncHandler(async (req, res) => {
-    const id = req.params.id;
+    const id = req.user.id;
 
     await this.#userService.deleteUser(id);
 
