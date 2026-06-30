@@ -3,6 +3,7 @@ import app from "./app.js";
 import { NODE_ENV, PORT } from "./config/env.config.js";
 import DatabaseService from "./infrastructure/database/database.service.js";
 import loggerService from "./infrastructure/logger/logger.service.js";
+
 // import { startJobs } from "./infrastructure/jobs/index.js";
 
 async function startServer() {

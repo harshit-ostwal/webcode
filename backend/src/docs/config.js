@@ -1,6 +1,6 @@
+import { BACKEND_URL, FRONTEND_URL } from "../config/env.config.js";
 import { API_VERSION } from "../shared/constants/api.constants.js";
 import { APP_NAME } from "../shared/constants/app.constants.js";
-import { BACKEND_URL } from "../config/env.config.js";
 import swaggerTags from "./tags.js";
 
 const swaggerConfig = {
@@ -12,9 +12,9 @@ const swaggerConfig = {
     description: `API documentation for the ${APP_NAME} application`,
 
     contact: {
-      name: "API Support",
-      email: "support@example.com",
-      url: "https://www.example.com/support",
+      name: "Harshit Jain",
+      email: "harshitostwal1234@gmail.com",
+      url: FRONTEND_URL,
     },
 
     license: {
@@ -27,8 +27,12 @@ const swaggerConfig = {
 
   servers: [
     {
-      url: `${BACKEND_URL}/api/${API_VERSION}`,
+      url: "http://localhost:8080/api/v1",
       description: "Development Server",
+    },
+    {
+      url: `${BACKEND_URL}/api/${API_VERSION}`,
+      description: "Production Server",
     },
   ],
 

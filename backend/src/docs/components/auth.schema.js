@@ -117,6 +117,36 @@
  *           $ref: '#/components/schemas/SignInData'
  *
  *
+ *     VerifyEmailRequest:
+ *       type: object
+ *       required:
+ *         - email
+ *         - otp
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: john@example.com
+ *
+ *         otp:
+ *           type: integer
+ *           minimum: 100000
+ *           maximum: 999999
+ *           example: 123456
+ *
+ *
+ *     ResendVerificationEmailRequest:
+ *       type: object
+ *       required:
+ *         - email
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: john@example.com
+ *
+ *
+ *
  *     RefreshTokenData:
  *       type: object
  *       properties:

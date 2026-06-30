@@ -4,7 +4,6 @@ import {
   generateAuthTokens,
   verifyToken,
 } from "../../core/security/jwt.security.js";
-import loggerService from "../../infrastructure/logger/logger.service.js";
 import mailService from "../../infrastructure/mail/mail.service.js";
 import { TOKEN_TYPE } from "../../shared/constants/security.constants.js";
 import { SessionService } from "../sessions/session.service.js";

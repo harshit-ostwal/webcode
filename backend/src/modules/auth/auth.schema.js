@@ -5,7 +5,6 @@ import {
   zPassword,
   zString,
 } from "../../shared/utils/zod.utils.js";
-import { objectIdSchema } from "../../shared/schemas/id.schema.js";
 
 const signUpSchema = z.strictObject({
   username: zString("Username"),
@@ -32,8 +31,8 @@ const resendVerificationEmailSchema = z.strictObject({
 });
 
 export {
-  signUpSchema,
-  signInSchema,
-  verifyEmailSchema,
   resendVerificationEmailSchema,
+  signInSchema,
+  signUpSchema,
+  verifyEmailSchema,
 };

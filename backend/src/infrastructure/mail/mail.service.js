@@ -1,7 +1,6 @@
 import mailProvider from "./mail.provider.js";
-
-import verifyEmailTemplate from "./templates/auth/verify-email.template.js";
 import forgotPasswordTemplate from "./templates/auth/forgot-password.template.js";
+import verifyEmailTemplate from "./templates/auth/verify-email.template.js";
 import welcomeTemplate from "./templates/auth/welcome.template.js";
 
 class MailService {

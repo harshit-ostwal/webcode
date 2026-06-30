@@ -1,9 +1,6 @@
 import baseLayout from "../layouts/base.layout.js";
 
-const verifyEmailTemplate = ({
-  name,
-  otp,
-}) => {
+const verifyEmailTemplate = ({ name, otp }) => {
   return baseLayout(`
     <div
       style="

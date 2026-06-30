@@ -10,7 +10,7 @@ class UserController {
     this.#userService = new UserService();
   }
 
-  getAllUsers = asyncHandler(async (req, res) => {
+  getAllUsers = asyncHandler(async (_, res) => {
     const users = await this.#userService.getAllUsers();
 
     return ApiResponse.ok(
