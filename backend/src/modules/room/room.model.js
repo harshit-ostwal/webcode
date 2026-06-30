@@ -20,8 +20,34 @@ const roomSchema = new mongoose.Schema(
 
     participants: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Participant",
+        participantId: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        participantName: {
+          type: String,
+          required: true,
+          trim: true,
+          maxlength: 50,
+        },
+        participantHandle: {
+          type: String,
+          trim: true,
+          maxlength: 30,
+        },
+        isActive: {
+          type: Boolean,
+          default: true,
+        },
+        joinedAt: {
+          type: Date,
+          default: Date.now,
+        },
+        lastSeenAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 
