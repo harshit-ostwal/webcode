@@ -1,6 +1,11 @@
 "use client";
 import QueryProvider from "./react-query-provider";
+import SocketProvider from "./socket-provider";
 
 export default function AppProvider({ children }) {
-  return <QueryProvider>{children}</QueryProvider>;
+  return (
+    <QueryProvider>
+      <SocketProvider>{children}</SocketProvider>
+    </QueryProvider>
+  );
 }
