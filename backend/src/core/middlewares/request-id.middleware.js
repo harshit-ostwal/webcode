@@ -1,4 +1,4 @@
-import generateUUID from "../../shared/utils/uuid.utils.js";
+import generateObjectId from "../../shared/utils/objectId.utils.js";
 
 const requestIdMiddleware = (req, res, next) => {
   const incomingRequestId =
@@ -7,7 +7,7 @@ const requestIdMiddleware = (req, res, next) => {
   if (incomingRequestId) {
     req.id = incomingRequestId;
   } else {
-    req.id = generateUUID();
+    req.id = generateObjectId();
   }
 
   res.setHeader("x-request-id", req.id);
