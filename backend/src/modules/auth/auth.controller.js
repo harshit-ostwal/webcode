@@ -138,9 +138,7 @@ class AuthController {
 
     return ApiResponse.ok(
       isAvailable,
-      isAvailable
-        ? AuthMessages.Success.USERNAME_AVAILABLE
-        : AuthMessages.Errors.USERNAME_UNAVAILABLE,
+      AuthMessages.Success.USERNAME_AVAILABLE,
     ).send(res);
   });
 }
