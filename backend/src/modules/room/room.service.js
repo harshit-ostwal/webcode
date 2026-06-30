@@ -12,10 +12,20 @@ class RoomService {
 
   async createRoom(userId, data) {
     const roomCode = this.#generateRoomCode();
+    const { participantName, participantHandle, participantId, ...roomData } =
+      data;
+
     const payload = {
       roomCode,
       hostId: userId,
-      ...data,
+      ...roomData,
+      participants: [
+        this.#buildParticipant({
+          participantId: participantId?.trim() || this.#generateParticipantId(),
+          participantName: participantName?.trim() || "Host",
+          participantHandle: participantHandle?.trim() || null,
+        }),
+      ],
     };
 
     const room = await this.#roomRepo.create(payload);
@@ -38,11 +48,23 @@ class RoomService {
       return room;
     }
 
-    const participantIds = room.participants ?? [];
-    if (!participantIds.includes(userId)) {
-      participantIds.push(userId);
+    const participants = room.participants ?? [];
+    const participantId =
+      data.participantId?.trim() || this.#generateParticipantId();
+    const participantName = data.participantName?.trim() || "Guest";
+    const participantHandle = data.participantHandle?.trim() || null;
+    const existingParticipant = participants.find(
+      (participant) => String(participant.participantId) === String(participantId),
+    );
+
+    if (existingParticipant) {
+      existingParticipant.participantName = participantName;
+      existingParticipant.participantHandle = participantHandle;
+      existingParticipant.isActive = true;
+      existingParticipant.lastSeenAt = new Date();
+
       const updatedRoom = await this.#roomRepo.updateById(room._id, {
-        participants: participantIds,
+        participants,
       });
 
       if (!updatedRoom) {
@@ -52,7 +74,23 @@ class RoomService {
       return updatedRoom;
     }
 
-    return room;
+    participants.push(
+      this.#buildParticipant({
+        participantId,
+        participantName,
+        participantHandle,
+      }),
+    );
+
+    const updatedRoom = await this.#roomRepo.updateById(room._id, {
+      participants,
+    });
+
+    if (!updatedRoom) {
+      throw ApiError.badRequest(RoomMessages.Errors.JOIN_ROOM_FAILED);
+    }
+
+    return updatedRoom;
   }
 
   async getRoomById(userId, id) {
@@ -101,7 +139,7 @@ class RoomService {
 
     const participants = room.participants ?? [];
     const filteredParticipants = participants.filter(
-      (participant) => String(participant) !== String(participantId),
+      (participant) => String(participant.participantId) !== String(participantId),
     );
 
     if (filteredParticipants.length === participants.length) {
@@ -117,6 +155,21 @@ class RoomService {
     }
 
     return updatedRoom;
+  }
+
+  #buildParticipant({ participantId, participantName, participantHandle }) {
+    return {
+      participantId,
+      participantName,
+      participantHandle,
+      isActive: true,
+      joinedAt: new Date(),
+      lastSeenAt: new Date(),
+    };
+  }
+
+  #generateParticipantId() {
+    return `participant-${generateObjectId().toString().slice(-8).toUpperCase()}`;
   }
 
   #generateRoomCode() {
