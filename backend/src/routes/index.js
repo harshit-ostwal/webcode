@@ -27,5 +27,11 @@ router.get("/", (_, res) => {
  */
 router.use("/health", healthRoute);
 
+router.use(
+  "/users",
+  (await import("../modules/users/user.route.js")).userRouter,
+);
+
+router.use("/auth", (await import("../modules/auth/auth.route.js")).authRouter);
 
 export default router;
