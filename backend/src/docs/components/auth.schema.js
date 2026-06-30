@@ -67,26 +67,7 @@
  *           format: password
  *           example: Password@123
  *
- *
- *    CheckUsernameRequest:
- *       type: object
- *       required:
- *         - username
- *       properties:
- *         username:
- *           type: string
- *           example: johndoe
- *
- *          statusCode:
- *            type: integer
- *            example: 200
- *
- *          message:
- *            type: string
- *
- *         data:
- *         type: object
- *
+
  *
  *     AuthResponse:
  *       type: object
@@ -165,6 +146,37 @@
  *           format: email
  *           example: john@example.com
  *
+ *
+ *     CheckUsernameRequest:
+ *       type: object
+ *       required:
+ *         - username
+ *       properties:
+ *         username:
+ *           type: string
+ *           example: johndoe
+ *
+ *
+ *     UsernameAvailabilityResponse:
+ *       type: object
+ *       properties:
+ *         success:
+ *           type: boolean
+ *           example: true
+ *
+ *         statusCode:
+ *           type: integer
+ *           example: 200
+ *
+ *         message:
+ *           type: string
+ *
+ *         data:
+ *           type: object
+ *           properties:
+ *             isAvailable:
+ *               type: boolean
+ *               example: true
  *
  *
  *     RefreshTokenData:

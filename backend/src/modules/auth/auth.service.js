@@ -215,7 +215,7 @@ class AuthService {
     const existingUser = await this.#userService.findByUsername(username);
 
     if (existingUser) {
-      return false;
+      throw ApiError.conflict(AuthMessages.Errors.USERNAME_UNAVAILABLE);
     }
 
     return true;
