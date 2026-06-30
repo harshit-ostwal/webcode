@@ -2,7 +2,12 @@ import createRouter from "../../core/factories/router.factory.js";
 import { verifyAuthenticationJWT } from "../../core/middlewares/authentication.middleware.js";
 import validate from "../../core/middlewares/validate.middleware.js";
 import authController from "./auth.controller.js";
-import { signInSchema, signUpSchema } from "./auth.schema.js";
+import {
+  resendVerificationEmailSchema,
+  signInSchema,
+  signUpSchema,
+  verifyEmailSchema,
+} from "./auth.schema.js";
 
 const router = createRouter();
 
@@ -34,6 +39,28 @@ router.post(
  * @access Public
  */
 router.get("/refresh-tokens", authController.refreshTokens);
+
+/**
+ * @route POST /auth/verify-email
+ * @desc  Verify the email of the current authenticated user
+ * @access Public
+ */
+router.post(
+  "/verify-email",
+  validate(verifyEmailSchema),
+  authController.verifyEmail,
+);
+
+/**
+ * @route POST /auth/verify-email/resend
+ * @desc  Resend the email verification for the current authenticated user
+ * @access Public
+ */
+router.post(
+  "/verify-email/resend",
+  validate(resendVerificationEmailSchema),
+  authController.resendVerificationEmail,
+);
 
 /**
  * @route GET /auth/me

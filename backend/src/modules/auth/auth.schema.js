@@ -1,9 +1,15 @@
 import z from "zod/v4";
-import { zPassword, zString } from "../../shared/utils/zod.utils.js";
+import {
+  zCoerce,
+  zEmail,
+  zPassword,
+  zString,
+} from "../../shared/utils/zod.utils.js";
+import { objectIdSchema } from "../../shared/schemas/id.schema.js";
 
 const signUpSchema = z.strictObject({
   username: zString("Username"),
-  email: zString("Email").email("Invalid email address"),
+  email: zEmail(),
   password: zPassword(),
 });
 
@@ -12,4 +18,22 @@ const signInSchema = z.strictObject({
   password: zPassword(),
 });
 
-export { signUpSchema, signInSchema };
+const verifyEmailSchema = z.strictObject({
+  email: zEmail(),
+  otp: zCoerce("OTP", "number", {
+    min: 100000,
+    max: 999999,
+    length: 6,
+  }),
+});
+
+const resendVerificationEmailSchema = z.strictObject({
+  email: zEmail(),
+});
+
+export {
+  signUpSchema,
+  signInSchema,
+  verifyEmailSchema,
+  resendVerificationEmailSchema,
+};

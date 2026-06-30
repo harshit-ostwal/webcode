@@ -4,22 +4,35 @@ import {
   generateAuthTokens,
   verifyToken,
 } from "../../core/security/jwt.security.js";
+import loggerService from "../../infrastructure/logger/logger.service.js";
+import mailService from "../../infrastructure/mail/mail.service.js";
 import { TOKEN_TYPE } from "../../shared/constants/security.constants.js";
 import { SessionService } from "../sessions/session.service.js";
 import { UserService } from "../users/user.service.js";
+import { VerificationType } from "../verifications/verification.contansts.js";
+import { VerificationService } from "../verifications/verification.service.js";
 import AuthMessages from "./auth.messages.js";
 
 class AuthService {
   #userService;
   #sessionService;
-
+  #verificationService;
   constructor() {
     this.#userService = new UserService();
     this.#sessionService = new SessionService();
+    this.#verificationService = new VerificationService();
   }
 
   async signUpWithCredentials(data) {
     const user = await this.#userService.createUser(data);
+
+    const { otp } = await this.#verificationService.generateVerification(
+      user._id,
+      VerificationType.VERIFY_EMAIL,
+    );
+
+    await mailService.sendVerificationEmail(user, otp);
+
     return user;
   }
 
@@ -32,9 +45,9 @@ class AuthService {
       throw ApiError.unauthorized(AuthMessages.Errors.INVALID_CREDENTIALS);
     }
 
-    // if (!existingUser.emailVerifiedAt) {
-    //   throw ApiError.unauthorized(AuthMessages.Errors.EMAIL_NOT_VERIFIED);
-    // }
+    if (!existingUser.emailVerifiedAt) {
+      throw ApiError.unauthorized(AuthMessages.Errors.EMAIL_NOT_VERIFIED);
+    }
 
     const isPasswordValid = await existingUser.comparePassword(data.password);
 
@@ -140,6 +153,63 @@ class AuthService {
     }
 
     return user;
+  }
+
+  async verifyEmail(email, otp) {
+    const existingUser = await this.#userService.findByEmail(email);
+
+    if (!existingUser) {
+      throw ApiError.notFound(AuthMessages.Errors.USER_NOT_FOUND);
+    }
+
+    if (existingUser.emailVerifiedAt) {
+      throw ApiError.badRequest(AuthMessages.Errors.EMAIL_ALREADY_VERIFIED);
+    }
+
+    const verification = await this.#verificationService.verifyVerification(
+      existingUser._id,
+      otp,
+      VerificationType.VERIFY_EMAIL,
+    );
+
+    await this.#verificationService.markVerificationAsVerified(
+      existingUser._id,
+      verification._id,
+    );
+
+    const user = await this.#userService.updateUser(existingUser._id, {
+      emailVerifiedAt: new Date(),
+    });
+
+    await this.#verificationService.deleteVerification(
+      existingUser._id,
+      verification._id,
+    );
+
+    await mailService.sendWelcomeEmail(user);
+
+    return user;
+  }
+
+  async resendVerificationEmail(email) {
+    const existingUser = await this.#userService.findByEmail(email);
+
+    if (!existingUser) {
+      throw ApiError.notFound(AuthMessages.Errors.USER_NOT_FOUND);
+    }
+
+    if (existingUser.emailVerifiedAt) {
+      throw ApiError.badRequest(AuthMessages.Errors.EMAIL_ALREADY_VERIFIED);
+    }
+
+    const { otp } = await this.#verificationService.generateVerification(
+      existingUser._id,
+      VerificationType.VERIFY_EMAIL,
+    );
+
+    await mailService.sendVerificationEmail(existingUser, otp);
+
+    return true;
   }
 }
 

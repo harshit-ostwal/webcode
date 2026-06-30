@@ -77,6 +77,11 @@ class SmtpProvider {
     ...options
   }) {
     try {
+      loggerService.info("Sending email...", {
+        to,
+        subject,
+      });
+
       const info = await this.transporter.sendMail({
         from: {
           name: APP_NAME,

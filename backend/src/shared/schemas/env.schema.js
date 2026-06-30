@@ -38,6 +38,19 @@ const envSchema = z
       int: true,
       positive: true,
     }),
+
+    MAIL_PROVIDER: zEnum("MAIL_PROVIDER", ["smtp"]),
+
+    SMTP_HOST: zString("SMTP_HOST", 1, 2048),
+    SMTP_PORT: zCoerce("SMTP_PORT", "number", {
+      min: 1,
+      max: 65535,
+      int: true,
+      positive: true,
+    }),
+    SMTP_USER: zString("SMTP_USER", 1, 2048),
+    SMTP_PASSWORD: zString("SMTP_PASSWORD", 1, 2048),
+    SMTP_SECURE: zCoerce("SMTP_SECURE", "boolean"),
   })
   .strip();
 
