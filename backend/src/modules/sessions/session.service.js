@@ -11,6 +11,10 @@ class SessionService {
     this.#sessionRepo = new SessionRepository();
   }
 
+  async findSessionById(userId, id) {
+    return await this.#sessionRepo.findById(userId, id);
+  }
+
   async getSessionById(userId, id) {
     const session = await this.#sessionRepo.findById(userId, id);
 
@@ -102,6 +106,10 @@ class SessionService {
     }
 
     return sessions;
+  }
+
+  async deleteExpiredSessions() {
+    return await this.#sessionRepo.deleteExpired();
   }
 }
 

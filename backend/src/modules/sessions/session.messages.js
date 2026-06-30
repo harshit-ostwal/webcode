@@ -10,6 +10,8 @@ const SessionMessages = {
     DELETE_SESSIONS_FAILED:
       "Failed to delete sessions, Please try again later.",
     INVALID_REFRESH_TOKEN: "Invalid refresh token, Please try again later.",
+    DELETE_EXPIRED_SESSIONS_FAILED:
+      "Failed to delete expired sessions, Please try again later.",
   },
   Success: {
     FETCH_SESSION_SUCCESS: "Session fetched successfully.",

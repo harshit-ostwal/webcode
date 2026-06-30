@@ -22,9 +22,8 @@ const SessionSchema = new Schema(
     refreshTokenExpiresAt: {
       type: Date,
       required: "Refresh token expiration date is required",
-      default: () => {
-        const now = new Date();
-        return new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+      index: {
+        expires: 0,
       },
     },
     tokenVersion: {

@@ -25,6 +25,10 @@ class UserService {
     return user;
   }
 
+  async findUserById(id) {
+    return await this.#userRepo.findById(id);
+  }
+
   async findByIdentifier(identifier) {
     return await this.#userRepo.findByIdentifier(identifier);
   }

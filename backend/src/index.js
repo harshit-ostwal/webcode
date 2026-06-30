@@ -3,10 +3,14 @@ import app from "./app.js";
 import { NODE_ENV, PORT } from "./config/env.config.js";
 import DatabaseService from "./infrastructure/database/database.service.js";
 import loggerService from "./infrastructure/logger/logger.service.js";
+// import { startJobs } from "./infrastructure/jobs/index.js";
 
 async function startServer() {
   try {
     await DatabaseService.connect();
+
+    // If you want to start background jobs, uncomment the following line
+    // startJobs();
 
     const server = app.listen(Number(PORT), () => {
       loggerService.info(

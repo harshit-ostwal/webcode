@@ -29,8 +29,8 @@ export const verifyAuthenticationJWT = asyncHandler(async (req, res, next) => {
 
   const { userId, sessionId, tokenVersion } = decodedToken;
 
-  const user = await new UserService().getUserById(userId);
-  const session = await new SessionService().getSessionById(userId, sessionId);
+  const user = await new UserService().findUserById(userId);
+  const session = await new SessionService().findSessionById(userId, sessionId);
 
   if (!(user && session)) {
     clearAuthCookies(res);

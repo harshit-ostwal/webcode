@@ -48,6 +48,14 @@ class SessionRepository {
       userId,
     }).select(SessionSelect);
   }
+
+  async deleteExpired() {
+    return await Session.deleteMany({
+      refreshTokenExpiresAt: {
+        $lte: new Date(),
+      },
+    });
+  }
 }
 
 export { SessionRepository };
