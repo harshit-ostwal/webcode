@@ -129,6 +129,20 @@ class AuthController {
       AuthMessages.Success.EMAIL_VERIFICATION_RESEND_SUCCESS,
     ).send(res);
   });
+
+  checkUsernameAvailability = asyncHandler(async (req, res) => {
+    const username = req.body.username;
+
+    const isAvailable =
+      await this.#authService.checkUsernameAvailability(username);
+
+    return ApiResponse.ok(
+      isAvailable,
+      isAvailable
+        ? AuthMessages.Success.USERNAME_AVAILABLE
+        : AuthMessages.Errors.USERNAME_UNAVAILABLE,
+    ).send(res);
+  });
 }
 
 export default new AuthController();

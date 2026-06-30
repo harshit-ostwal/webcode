@@ -210,6 +210,16 @@ class AuthService {
 
     return true;
   }
+
+  async checkUsernameAvailability(username) {
+    const existingUser = await this.#userService.findByUsername(username);
+
+    if (existingUser) {
+      return false;
+    }
+
+    return true;
+  }
 }
 
 export { AuthService };

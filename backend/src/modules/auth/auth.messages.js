@@ -20,6 +20,8 @@ const AuthMessages = {
       "Password reset token has expired. Please request a new password reset.",
     PASSWORD_RESET_TOKEN_INVALID:
       "Password reset token is invalid. Please request a new password reset.",
+    USERNAME_UNAVAILABLE:
+      "Username is unavailable. Please choose a different username.",
   },
   Success: {
     SIGN_UP_SUCCESS:
@@ -31,6 +33,7 @@ const AuthMessages = {
     REFRESH_TOKEN_SUCCESS:
       "Refresh token successful. New access token and refresh token have been generated.",
     CURRENT_USER_FETCH_SUCCESS: "Current user fetched successfully.",
+    USERNAME_AVAILABLE: "Username is available.",
   },
 };
 

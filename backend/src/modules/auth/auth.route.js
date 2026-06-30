@@ -3,6 +3,7 @@ import { verifyAuthenticationJWT } from "../../core/middlewares/authentication.m
 import validate from "../../core/middlewares/validate.middleware.js";
 import authController from "./auth.controller.js";
 import {
+  checkUsernameSchema,
   resendVerificationEmailSchema,
   signInSchema,
   signUpSchema,
@@ -31,6 +32,17 @@ router.post(
   "/sign-in",
   validate(signInSchema),
   authController.signInWithCredentials,
+);
+
+/**
+ * @route GET /auth/check-username
+ * @desc  Check if a username is available
+ * @access Public
+ */
+router.get(
+  "/check-username",
+  validate(checkUsernameSchema),
+  authController.checkUsernameAvailability,
 );
 
 /**

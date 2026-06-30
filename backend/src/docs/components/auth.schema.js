@@ -68,6 +68,26 @@
  *           example: Password@123
  *
  *
+ *    CheckUsernameRequest:
+ *       type: object
+ *       required:
+ *         - username
+ *       properties:
+ *         username:
+ *           type: string
+ *           example: johndoe
+ *
+ *          statusCode:
+ *            type: integer
+ *            example: 200
+ *
+ *          message:
+ *            type: string
+ *
+ *         data:
+ *         type: object
+ *
+ *
  *     AuthResponse:
  *       type: object
  *       properties:

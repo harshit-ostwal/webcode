@@ -17,6 +17,10 @@ const signInSchema = z.strictObject({
   password: zPassword(),
 });
 
+const checkUsernameSchema = z.strictObject({
+  username: zString("Username"),
+});
+
 const verifyEmailSchema = z.strictObject({
   email: zEmail(),
   otp: zCoerce("OTP", "number", {
@@ -35,4 +39,5 @@ export {
   signInSchema,
   signUpSchema,
   verifyEmailSchema,
+  checkUsernameSchema,
 };

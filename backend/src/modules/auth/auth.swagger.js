@@ -57,6 +57,32 @@
 
 /**
  * @swagger
+ * /auth/check-username:
+ *   get:
+ *     summary: Check username availability
+ *     description: Checks if a username is available for registration.
+ *     tags:
+ *       - Auth
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The username to check for availability.
+ *     responses:
+ *       200:
+ *         description: Username is available.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UsernameAvailabilityResponse'
+ *       409:
+ *         description: Username is unavailable.
+ */
+
+/**
+ * @swagger
  * /auth/refresh-tokens:
  *   get:
  *     summary: Refresh access token
