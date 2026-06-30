@@ -54,4 +54,9 @@ router.use(
   (await import("../modules/sessions/session.route.js")).SessionRouter,
 );
 
+router.use(
+  "/rooms",
+  (await import("../modules/room/room.route.js")).RoomRouter,
+);
+
 export default router;
