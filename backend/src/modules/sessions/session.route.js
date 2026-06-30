@@ -10,7 +10,7 @@ const router = createRouter();
 router.use(verifyAuthenticationJWT);
 
 router
-  .route("/")
+  .route("/all")
   .get(sessionController.getSessionByUserId)
   .delete(sessionController.deleteSessionsByUserId);
 
