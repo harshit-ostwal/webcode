@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# WebCode Frontend
+
+Frontend for **WebCode**, built with Next.js, React, and Tailwind CSS.
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Hook Form
+- Zod
+- Zustand
+
+---
+
+## Live Demo
+
+| Service | URL |
+|----------|-----|
+| Frontend | https://webcode-five-eta.vercel.app |
+| Backend API | https://webcode-production-1d1f.up.railway.app |
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd webcode-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+bun install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Create `.env.local`
 
-## Learn More
+Copy the example environment file.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.example .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Configure the following variables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1
+NEXT_PUBLIC_HEALTH_CHECK_URL=http://localhost:8080/api/v1/health
+NEXT_PUBLIC_APP_NAME=Frontend App
+NEXT_PUBLIC_NODE_ENV=development
+```
 
-## Deploy on Vercel
+### 4. Start the development server
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+bun run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application will be available at:
+
+```
+http://localhost:3000
+```
+
+---
+
+## Project Structure
+
+```text
+src
+├── app/
+├── components/
+├── features/
+├── hooks/
+├── lib/
+├── providers/
+├── services/
+├── store/
+├── styles/
+├── types/
+└── utils/
+```
+
+---
+
+## Features
+
+- User Authentication
+- Protected Routes
+- API Integration
+- Form Validation
+- Responsive UI
+- State Management
+- Dark Mode Support
+- Reusable Components
+- Type Safe Development
+
+---
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_API_URL` | Backend API Base URL |
+| `NEXT_PUBLIC_HEALTH_CHECK_URL` | Health Check Endpoint |
+| `NEXT_PUBLIC_APP_NAME` | Application Name |
+| `NEXT_PUBLIC_NODE_ENV` | Environment |
+
+---
+
+## Available Scripts
+
+```bash
+bun run dev        # Development
+bun run build      # Production Build
+bun run start      # Start Production Server
+bun run lint       # Lint Project
+```
+
+---
+
+## Production URLs
+
+| Environment | URL |
+|------------|-----|
+| Frontend | https://webcode-five-eta.vercel.app |
+| API | https://webcode-production-1d1f.up.railway.app/api/v1 |
+
+---
+
+## License
+
+This project is licensed under the MIT License.
