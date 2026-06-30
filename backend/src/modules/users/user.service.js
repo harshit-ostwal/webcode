@@ -1,14 +1,16 @@
 import ApiError from "../../core/http/api.error.js";
 import { getChangedFields } from "../../shared/utils/object.utils.js";
 import { generateUsername } from "../../shared/utils/username.utils.js";
+import { SessionService } from "../sessions/session.service.js";
 import UserMessages from "./user.messages.js";
 import { UserRepository } from "./user.repository.js";
 
 class UserService {
   #userRepo;
-
+  #sessionService;
   constructor() {
     this.#userRepo = new UserRepository();
+    this.#sessionService = new SessionService();
   }
 
   async getAllUsers() {
@@ -98,6 +100,7 @@ class UserService {
   async deleteUser(id) {
     await this.getUserById(id);
 
+    await this.#sessionService.deleteSessionsByUserId(id);
     const user = await this.#userRepo.delete(id);
 
     if (!user) {
