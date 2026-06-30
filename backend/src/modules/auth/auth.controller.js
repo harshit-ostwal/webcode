@@ -43,11 +43,7 @@ class AuthController {
     setAuthCookies(res, accessToken, refreshToken);
 
     return ApiResponse.ok(
-      {
-        user: new AuthDto(user),
-        accessToken,
-        refreshToken,
-      },
+      new AuthDto(user),
       AuthMessages.Success.SIGN_IN_SUCCESS,
     ).send(res);
   });
@@ -108,6 +104,43 @@ class AuthController {
     return ApiResponse.ok(
       new AuthDto(user),
       AuthMessages.Success.CURRENT_USER_FETCH_SUCCESS,
+    ).send(res);
+  });
+
+  verifyEmail = asyncHandler(async (req, res) => {
+    const email = req.body.email;
+    const otp = req.body.otp;
+
+    const user = await this.#authService.verifyEmail(email, otp);
+
+    return ApiResponse.ok(
+      new AuthDto(user),
+      AuthMessages.Success.EMAIL_VERIFICATION_SUCCESS,
+    ).send(res);
+  });
+
+  resendVerificationEmail = asyncHandler(async (req, res) => {
+    const email = req.body.email;
+
+    await this.#authService.resendVerificationEmail(email);
+
+    return ApiResponse.ok(
+      null,
+      AuthMessages.Success.EMAIL_VERIFICATION_RESEND_SUCCESS,
+    ).send(res);
+  });
+
+  checkUsernameAvailability = asyncHandler(async (req, res) => {
+    const username = req.body.username;
+
+    const isAvailable =
+      await this.#authService.checkUsernameAvailability(username);
+
+    return ApiResponse.ok(
+      isAvailable,
+      isAvailable
+        ? AuthMessages.Success.USERNAME_AVAILABLE
+        : AuthMessages.Errors.USERNAME_UNAVAILABLE,
     ).send(res);
   });
 }

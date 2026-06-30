@@ -17,6 +17,7 @@
         "mongoose": "8",
         "morgan": "^1.11.0",
         "node-cron": "^4.5.0",
+        "nodemailer": "^9.0.2",
         "slugify": "^1.6.9",
         "swagger-jsdoc": "^6.3.0",
         "swagger-ui-express": "^5.0.1",
@@ -351,6 +352,8 @@
     "negotiator": ["negotiator@0.6.4", "", {}, "sha512-myRT3DiWPHqho5PrJaIRyaMv2kgYf0mUVgBNOYMuCH5Ki1yEiQaf/ZJuQ62nvpc44wL5WDbTX7yGJi1Neevw8w=="],
 
     "node-cron": ["node-cron@4.5.0", "", {}, "sha512-4Trh+kjvbXokyJkwQumvD5YAgeJfgHLR/sKyu71uSmxfCR5QMO1hldpvmFZOICN5pLgNY+J5Y8+ar3XKo5/4tQ=="],
+
+    "nodemailer": ["nodemailer@9.0.2", "", {}, "sha512-Rnve6ToHDjq8GKDB+AYAXgGTSL9XLn3UBCLpJ0eV19an4LZLQdUp+i9SD8wenURjarIBNG11b/biucIgkxEeAg=="],
 
     "nodemon": ["nodemon@3.1.14", "", { "dependencies": { "chokidar": "^3.5.2", "debug": "^4", "ignore-by-default": "^1.0.1", "minimatch": "^10.2.1", "pstree.remy": "^1.1.8", "semver": "^7.5.3", "simple-update-notifier": "^2.0.0", "supports-color": "^5.5.0", "touch": "^3.1.0", "undefsafe": "^2.0.5" }, "bin": { "nodemon": "bin/nodemon.js" } }, "sha512-jakjZi93UtB3jHMWsXL68FXSAosbLfY0In5gtKq3niLSkrWznrVBzXFNOEMJUfc9+Ke7SHWoAZsiMkNP3vq6Jw=="],
 

@@ -68,6 +68,26 @@
  *           example: Password@123
  *
  *
+ *    CheckUsernameRequest:
+ *       type: object
+ *       required:
+ *         - username
+ *       properties:
+ *         username:
+ *           type: string
+ *           example: johndoe
+ *
+ *          statusCode:
+ *            type: integer
+ *            example: 200
+ *
+ *          message:
+ *            type: string
+ *
+ *         data:
+ *         type: object
+ *
+ *
  *     AuthResponse:
  *       type: object
  *       properties:
@@ -115,6 +135,36 @@
  *
  *         data:
  *           $ref: '#/components/schemas/SignInData'
+ *
+ *
+ *     VerifyEmailRequest:
+ *       type: object
+ *       required:
+ *         - email
+ *         - otp
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: john@example.com
+ *
+ *         otp:
+ *           type: integer
+ *           minimum: 100000
+ *           maximum: 999999
+ *           example: 123456
+ *
+ *
+ *     ResendVerificationEmailRequest:
+ *       type: object
+ *       required:
+ *         - email
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: john@example.com
+ *
  *
  *
  *     RefreshTokenData:

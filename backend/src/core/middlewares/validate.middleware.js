@@ -1,4 +1,4 @@
-import { z, ZodError } from "zod/v4";
+import { ZodError, z } from "zod/v4";
 import ValidationSource from "../../shared/constants/validation.constants.js";
 import ApiError from "../http/api.error.js";
 

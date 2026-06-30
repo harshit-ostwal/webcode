@@ -38,4 +38,4 @@ const swaggerTheme = {
   `,
 };
 
-export { specs, swaggerUi, swaggerTheme };
+export { specs, swaggerTheme, swaggerUi };

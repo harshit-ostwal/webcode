@@ -57,6 +57,32 @@
 
 /**
  * @swagger
+ * /auth/check-username:
+ *   get:
+ *     summary: Check username availability
+ *     description: Checks if a username is available for registration.
+ *     tags:
+ *       - Auth
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The username to check for availability.
+ *     responses:
+ *       200:
+ *         description: Username is available.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UsernameAvailabilityResponse'
+ *       409:
+ *         description: Username is unavailable.
+ */
+
+/**
+ * @swagger
  * /auth/refresh-tokens:
  *   get:
  *     summary: Refresh access token
@@ -72,6 +98,56 @@
  *               $ref: '#/components/schemas/RefreshTokenResponse'
  *       401:
  *         description: Invalid or expired refresh token.
+ */
+
+/**
+ * @swagger
+ * /auth/verify-email:
+ *   post:
+ *     summary: Verify email address
+ *     description: Verifies a user's email address using the OTP sent to their email.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/VerifyEmailRequest'
+ *     responses:
+ *       200:
+ *         description: Email verified successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         description: Invalid or expired OTP.
+ *       404:
+ *         description: User not found.
+ */
+
+/**
+ * @swagger
+ * /auth/verify-email/resend:
+ *   post:
+ *     summary: Resend verification email
+ *     description: Sends a new email verification OTP to the user's email address.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResendVerificationEmailRequest'
+ *     responses:
+ *       200:
+ *         description: Verification email sent successfully.
+ *       400:
+ *         description: Email already verified.
+ *       404:
+ *         description: User not found.
  */
 
 /**

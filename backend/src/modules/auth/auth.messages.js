@@ -10,6 +10,18 @@ const AuthMessages = {
     EMAIL_NOT_VERIFIED:
       "Email not verified. Please check your email for verification.",
     SESSION_EXPIRED: "Session expired. Please sign in again.",
+    EMAIL_VERIFICATION_FAILED:
+      "Email verification failed. Please check your email for verification.",
+    EMAIL_SEND_FAILED:
+      "Failed to send email. Please try again later or contact support.",
+    PASSWORD_RESET_FAILED:
+      "Password reset failed. Please check your email for password reset instructions.",
+    PASSWORD_RESET_TOKEN_EXPIRED:
+      "Password reset token has expired. Please request a new password reset.",
+    PASSWORD_RESET_TOKEN_INVALID:
+      "Password reset token is invalid. Please request a new password reset.",
+    USERNAME_UNAVAILABLE:
+      "Username is unavailable. Please choose a different username.",
   },
   Success: {
     SIGN_UP_SUCCESS:
@@ -21,6 +33,7 @@ const AuthMessages = {
     REFRESH_TOKEN_SUCCESS:
       "Refresh token successful. New access token and refresh token have been generated.",
     CURRENT_USER_FETCH_SUCCESS: "Current user fetched successfully.",
+    USERNAME_AVAILABLE: "Username is available.",
   },
 };
 
