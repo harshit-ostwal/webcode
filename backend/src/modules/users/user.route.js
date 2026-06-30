@@ -6,8 +6,18 @@ import { updateUserSchema } from "./user.schema.js";
 
 const router = createRouter();
 
+/** * @route /users
+ * @desc  User-related routes
+ * @access Private (requires authentication)
+ */
 router.use(verifyAuthenticationJWT);
 
+/** * @route GET /users/
+ * @desc Get all users
+ * @desc Update user information
+ * @desc Delete a user
+ * @access Private (requires authentication)
+ */
 router
   .route("/")
   .get(userController.getAllUsers)
