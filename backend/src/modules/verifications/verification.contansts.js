@@ -1,0 +1,17 @@
+const VerificationType = Object.freeze({
+  VERIFY_EMAIL: "VERIFY_EMAIL",
+  RESET_PASSWORD: "RESET_PASSWORD",
+});
+
+const VERIFICATION_EXPIRY_MINUTES = Object.freeze({
+  VERIFY_EMAIL: 15,
+  RESET_PASSWORD: 15,
+});
+
+const MAX_VERIFICATION_ATTEMPTS = 5;
+
+export {
+  VerificationType,
+  VERIFICATION_EXPIRY_MINUTES,
+  MAX_VERIFICATION_ATTEMPTS,
+};
