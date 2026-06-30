@@ -6,8 +6,6 @@ const VerificationSelect = {
   attempts: 1,
   verifiedAt: 1,
   expiresAt: 1,
-  createdAt: 1,
-  updatedAt: 1,
 };
 
 export { VerificationSelect };

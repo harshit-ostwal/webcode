@@ -8,7 +8,6 @@ const SessionSelect = {
   tokenVersion: 1,
   lastLoginAt: 1,
   createdAt: 1,
-  updatedAt: 1,
 };
 
 export { SessionSelect };
