@@ -4,6 +4,7 @@ import loggerService from "../logger/logger.service.js";
 import { SOCKET_EVENTS } from "./socket.constants.js";
 import { socketAuthMiddleware } from "./socket.middleware.js";
 import presenceStore from "./presence.store.js";
+import { registerRoomHandlers } from "./handlers/room.handler.js";
 
 /** @type {import("socket.io").Server | null} */
 let io = null;
@@ -61,8 +62,9 @@ const initSocket = (httpServer) => {
       }
     });
 
-    // Room and presence handlers will be registered here in Phase 2.
-    // e.g. registerRoomHandlers(io, socket);
+    // Register all room and presence event handlers for this socket
+    registerRoomHandlers(io, socket);
+
   });
 
   loggerService.info("[Socket] Socket.io server initialized successfully.");

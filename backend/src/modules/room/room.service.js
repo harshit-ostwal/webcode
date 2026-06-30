@@ -65,6 +65,20 @@ class RoomService {
     return room;
   }
 
+  async getRoomByCode(roomCode) {
+    const room = await this.#roomRepo.findByCode(roomCode);
+
+    if (!room) {
+      throw ApiError.notFound(RoomMessages.Errors.ROOM_NOT_FOUND);
+    }
+
+    if (!room.isActive) {
+      throw ApiError.forbidden(RoomMessages.Errors.UNAUTHORIZED_ROOM_ACTION);
+    }
+
+    return room;
+  }
+
   async renameRoom(userId, id, data) {
     const existingRoom = await this.getRoomById(userId, id);
     const changedFields = getChangedFields(existingRoom, data);
