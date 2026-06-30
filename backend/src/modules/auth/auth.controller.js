@@ -1,5 +1,9 @@
 import ApiResponse from "../../core/http/api.response.js";
 import asyncHandler from "../../core/middlewares/async-handler.middleware.js";
+import {
+  clearAuthCookies,
+  setAuthCookies,
+} from "../../shared/utils/cookie.utils.js";
 import { getRequestInfo } from "../../shared/utils/request.utils.js";
 import { AuthDto } from "./auth.dto.js";
 import AuthMessages from "./auth.messages.js";
@@ -36,6 +40,8 @@ class AuthController {
     const { user, accessToken, refreshToken } =
       await this.#authService.signInWithCredentials(data);
 
+    setAuthCookies(res, accessToken, refreshToken);
+
     return ApiResponse.ok(
       {
         user: new AuthDto(user),
@@ -52,6 +58,8 @@ class AuthController {
 
     await this.#authService.signOut(userId, sessionId);
 
+    clearAuthCookies(res);
+
     return ApiResponse.ok(null, AuthMessages.Success.SIGN_OUT_SUCCESS).send(
       res,
     );
@@ -62,6 +70,8 @@ class AuthController {
 
     await this.#authService.signOutAllSessions(userId);
 
+    clearAuthCookies(res);
+
     return ApiResponse.ok(
       null,
       AuthMessages.Success.SIGN_OUT_ALL_SESSIONS_SUCCESS,
@@ -71,15 +81,33 @@ class AuthController {
   refreshTokens = asyncHandler(async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
 
-    const { accessToken, refreshToken: newRefreshToken } =
-      await this.#authService.refreshTokens(refreshToken);
+    try {
+      const { accessToken, refreshToken: newRefreshToken } =
+        await this.#authService.refreshTokens(refreshToken);
+
+      setAuthCookies(res, accessToken, newRefreshToken);
+
+      return ApiResponse.ok(
+        accessToken,
+        AuthMessages.Success.REFRESH_TOKEN_SUCCESS,
+      ).send(res);
+    } catch (error) {
+      if (error.statusCode === 401) {
+        clearAuthCookies(res);
+      }
+
+      throw error;
+    }
+  });
+
+  getCurrentUser = asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+
+    const user = await this.#authService.getCurrentUser(userId);
 
     return ApiResponse.ok(
-      {
-        accessToken,
-        refreshToken: newRefreshToken,
-      },
-      AuthMessages.Success.REFRESH_TOKEN_SUCCESS,
+      new AuthDto(user),
+      AuthMessages.Success.CURRENT_USER_FETCH_SUCCESS,
     ).send(res);
   });
 }

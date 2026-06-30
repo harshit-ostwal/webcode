@@ -9,6 +9,7 @@ const AuthMessages = {
       "Refresh token is required. Please provide a refresh token.",
     EMAIL_NOT_VERIFIED:
       "Email not verified. Please check your email for verification.",
+    SESSION_EXPIRED: "Session expired. Please sign in again.",
   },
   Success: {
     SIGN_UP_SUCCESS:
@@ -19,6 +20,7 @@ const AuthMessages = {
       "Sign out from all sessions successful. You have been logged out from all devices.",
     REFRESH_TOKEN_SUCCESS:
       "Refresh token successful. New access token and refresh token have been generated.",
+    CURRENT_USER_FETCH_SUCCESS: "Current user fetched successfully.",
   },
 };
 

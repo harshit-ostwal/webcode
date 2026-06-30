@@ -4,8 +4,8 @@ import { SessionSelect } from "./session.select.js";
 class SessionRepository {
   async findById(userId, id) {
     return await Session.findOne({
-      _id: id,
       userId,
+      _id: id,
     }).select(SessionSelect);
   }
 

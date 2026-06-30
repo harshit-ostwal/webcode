@@ -1,4 +1,5 @@
 import createRouter from "../../core/factories/router.factory.js";
+import { verifyAuthenticationJWT } from "../../core/middlewares/authentication.middleware.js";
 import validate from "../../core/middlewares/validate.middleware.js";
 import authController from "./auth.controller.js";
 import { signInSchema, signUpSchema } from "./auth.schema.js";
@@ -17,10 +18,13 @@ router.post(
   authController.signInWithCredentials,
 );
 
+router.get("/refresh-tokens", authController.refreshTokens);
+
+router.use(verifyAuthenticationJWT);
+
+router.get("/me", authController.getCurrentUser);
+
 router.delete("/sign-out", authController.signOut);
-
-router.delete("/sign-out-all", authController.signOutAllSessions);
-
-router.post("/refresh-tokens", authController.refreshTokens);
+router.delete("/sign-out/all", authController.signOutAllSessions);
 
 export { router as authRouter };

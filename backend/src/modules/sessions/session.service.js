@@ -42,7 +42,7 @@ class SessionService {
     } = generateAuthTokens({ userId, sessionId, tokenVersion: 0 });
 
     const payload = {
-      id: sessionId,
+      _id: sessionId,
       userId,
       refreshToken: hashedRefreshToken,
       refreshTokenExpiresAt,

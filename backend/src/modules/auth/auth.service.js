@@ -32,9 +32,9 @@ class AuthService {
       throw ApiError.unauthorized(AuthMessages.Errors.INVALID_CREDENTIALS);
     }
 
-    if (!existingUser.emailVerifiedAt) {
-      throw ApiError.unauthorized(AuthMessages.Errors.EMAIL_NOT_VERIFIED);
-    }
+    // if (!existingUser.emailVerifiedAt) {
+    //   throw ApiError.unauthorized(AuthMessages.Errors.EMAIL_NOT_VERIFIED);
+    // }
 
     const isPasswordValid = await existingUser.comparePassword(data.password);
 
@@ -74,6 +74,10 @@ class AuthService {
     try {
       decodedToken = verifyToken(refreshToken, TOKEN_TYPE.REFRESH);
     } catch (error) {
+      if (error.name === "TokenExpiredError") {
+        throw ApiError.unauthorized(AuthMessages.Errors.SESSION_EXPIRED);
+      }
+
       throw ApiError.unauthorized(AuthMessages.Errors.INVALID_TOKEN);
     }
 
@@ -82,13 +86,24 @@ class AuthService {
       decodedToken.sessionId,
     );
 
+    if (!existingSession) {
+      throw ApiError.unauthorized(AuthMessages.Errors.SESSION_EXPIRED);
+    }
+
+    if (existingSession.refreshTokenExpiresAt < new Date()) {
+      await existingSession.deleteOne();
+      throw ApiError.unauthorized(AuthMessages.Errors.SESSION_EXPIRED);
+    }
+
     if (
-      !existingSession ||
-      existingSession.userId !== decodedToken.userId ||
-      existingSession.tokenVersion !== decodedToken.tokenVersion ||
-      existingSession.refreshTokenExpiresAt < new Date() ||
-      hashToken(refreshToken) !== existingSession.refreshToken
+      existingSession.userId.toString() !== decodedToken.userId ||
+      existingSession.id.toString() !== decodedToken.sessionId ||
+      Number(existingSession.tokenVersion) !== Number(decodedToken.tokenVersion)
     ) {
+      throw ApiError.unauthorized(AuthMessages.Errors.INVALID_TOKEN);
+    }
+
+    if (hashToken(refreshToken) !== existingSession.refreshToken) {
       throw ApiError.unauthorized(AuthMessages.Errors.INVALID_TOKEN);
     }
 
@@ -115,6 +130,16 @@ class AuthService {
       accessToken,
       refreshToken: newRefreshToken,
     };
+  }
+
+  async getCurrentUser(userId) {
+    const user = await this.#userService.getUserById(userId);
+
+    if (!user) {
+      throw ApiError.unauthorized(AuthMessages.Errors.INVALID_CREDENTIALS);
+    }
+
+    return user;
   }
 }
 

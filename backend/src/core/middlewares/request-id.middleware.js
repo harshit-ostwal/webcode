@@ -1,4 +1,4 @@
-import generateObjectId from "../../shared/utils/objectId.utils";
+import generateObjectId from "../../shared/utils/objectId.utils.js";
 
 const requestIdMiddleware = (req, res, next) => {
   const incomingRequestId =
