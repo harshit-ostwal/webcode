@@ -4,6 +4,7 @@ import { addMinutes } from "../../shared/utils/date.utils.js";
 import { generateOTP } from "../../shared/utils/otp.utils.js";
 import {
   MAX_VERIFICATION_ATTEMPTS,
+  MAX_RESEND_COUNT,
   VERIFICATION_EXPIRY_MINUTES,
 } from "./verification.contansts.js";
 import VerificationMessages from "./verification.messages.js";
@@ -21,6 +22,10 @@ class VerificationService {
 
   #isMaxAttemptsReached(verification) {
     return verification.attempts >= MAX_VERIFICATION_ATTEMPTS;
+  }
+
+  #isMaxResendsReached(verification) {
+    return verification.resendCount >= MAX_RESEND_COUNT;
   }
 
   async generateVerification(userId, type) {
@@ -98,6 +103,43 @@ class VerificationService {
     });
   }
 
+  async increaseResendCount(userId, id) {
+    const verification = await this.#verificationRepo.findById(userId, id);
+
+    return await this.#verificationRepo.update(userId, id, {
+      resendCount: verification.resendCount + 1,
+    });
+  }
+
+  async canResendVerification(userId, type) {
+    const verification = await this.#verificationRepo.findByUserIdAndType(
+      userId,
+      type,
+    );
+
+    if (!verification) {
+      return true;
+    }
+
+    return !this.#isMaxResendsReached(verification);
+  }
+
+  async checkResendLimit(userId, type) {
+    const verification = await this.#verificationRepo.findByUserIdAndType(
+      userId,
+      type,
+    );
+
+    if (!verification) {
+      return { canResend: true, resendsRemaining: MAX_RESEND_COUNT };
+    }
+
+    const canResend = !this.#isMaxResendsReached(verification);
+    const resendsRemaining = Math.max(0, MAX_RESEND_COUNT - verification.resendCount);
+
+    return { canResend, resendsRemaining };
+  }
+
   async markVerificationAsVerified(userId, id) {
     return await this.#verificationRepo.update(userId, id, {
       verifiedAt: new Date(),
@@ -110,6 +152,10 @@ class VerificationService {
 
   async deleteVerificationByType(userId, type) {
     return await this.#verificationRepo.deleteByUserIdAndType(userId, type);
+  }
+
+  async getVerificationByUserAndType(userId, type) {
+    return await this.#verificationRepo.findByUserIdAndType(userId, type);
   }
 }
 

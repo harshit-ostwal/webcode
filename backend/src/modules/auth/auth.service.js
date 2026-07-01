@@ -45,7 +45,9 @@ class AuthService {
     }
 
     if (!existingUser.emailVerifiedAt) {
-      throw ApiError.unauthorized(AuthMessages.Errors.EMAIL_NOT_VERIFIED);
+      throw ApiError.unauthorized(AuthMessages.Errors.EMAIL_NOT_VERIFIED, [
+        { email: existingUser.email },
+      ]);
     }
 
     const isPasswordValid = await existingUser.comparePassword(data.password);
@@ -201,22 +203,36 @@ class AuthService {
       throw ApiError.badRequest(AuthMessages.Errors.EMAIL_ALREADY_VERIFIED);
     }
 
+    const { canResend } = await this.#verificationService.checkResendLimit(
+      existingUser._id,
+      VerificationType.VERIFY_EMAIL,
+    );
+
+    if (!canResend) {
+      throw ApiError.tooManyRequests(
+        VerificationMessages.Errors.MAX_RESENDS_EXCEEDED,
+      );
+    }
+
+    const existingVerification =
+      await this.#verificationService.getVerificationByUserAndType(
+        existingUser._id,
+        VerificationType.VERIFY_EMAIL,
+      );
+
+    if (existingVerification) {
+      await this.#verificationService.increaseResendCount(
+        existingUser._id,
+        existingVerification._id,
+      );
+    }
+
     const { otp } = await this.#verificationService.generateVerification(
       existingUser._id,
       VerificationType.VERIFY_EMAIL,
     );
 
     await mailService.sendVerificationEmail(existingUser, otp);
-
-    return true;
-  }
-
-  async checkUsernameAvailability(username) {
-    const existingUser = await this.#userService.findByUsername(username);
-
-    if (existingUser) {
-      throw ApiError.conflict(AuthMessages.Errors.USERNAME_UNAVAILABLE);
-    }
 
     return true;
   }

@@ -6,6 +6,15 @@ const userSchema = z.strictObject({
   username: zString("Username", 3, 30).optional(),
 });
 
+const checkUsernameSchema = z.strictObject({
+  username: zString("Username")
+    .trim()
+    .toLowerCase()
+    .regex(/^(?=.{3,20}$)(?!.*[._]{2})[a-z0-9]+(?:[._][a-z0-9]+)*$/, {
+      error: "Use 3-20 lowercase letters, numbers, dots, or underscores.",
+    }),
+});
+
 const updateUserSchema = userSchema.partial();
 
-export { updateUserSchema };
+export { updateUserSchema, checkUsernameSchema };

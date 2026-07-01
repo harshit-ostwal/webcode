@@ -9,8 +9,11 @@ const UserMessages = {
 
     FAILED_TO_UPDATE_USER: "Failed to update user, Please try again later.",
     FAILED_TO_DELETE_USER: "Failed to delete user, Please try again later.",
+    USERNAME_UNAVAILABLE:
+      "Username is unavailable. Please choose a different username.",
   },
   Success: {
+    USERNAME_AVAILABLE: "Username is available.",
     FETCHED_ALL_USERS_SUCCESSFULLY: "Fetched all users successfully.",
     FETCHED_USER_SUCCESSFULLY: "Fetched user successfully.",
     USER_CREATED_SUCCESSFULLY: "User created successfully.",

@@ -10,6 +10,15 @@ class UserController {
     this.#userService = new UserService();
   }
 
+  checkUsernameAvailability = asyncHandler(async (req, res) => {
+    const username = req.params.username;
+
+    await this.#userService.checkUsernameAvailability(username);
+    return ApiResponse.ok(null, UserMessages.Success.USERNAME_AVAILABLE).send(
+      res,
+    );
+  });
+
   getAllUsers = asyncHandler(async (_, res) => {
     const users = await this.#userService.getAllUsers();
 

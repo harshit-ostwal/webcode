@@ -7,7 +7,12 @@ import {
 } from "../../shared/utils/zod.utils.js";
 
 const signUpSchema = z.strictObject({
-  username: zString("Username"),
+  username: zString("Username")
+    .trim()
+    .toLowerCase()
+    .regex(/^(?=.{3,20}$)(?!.*[._]{2})[a-z0-9]+(?:[._][a-z0-9]+)*$/, {
+      error: "Use 3-20 lowercase letters, numbers, dots, or underscores.",
+    }),
   email: zEmail(),
   password: zPassword(),
 });
@@ -15,10 +20,6 @@ const signUpSchema = z.strictObject({
 const signInSchema = z.strictObject({
   identifier: zString("Identifier"),
   password: zPassword(),
-});
-
-const checkUsernameSchema = z.strictObject({
-  username: zString("Username"),
 });
 
 const verifyEmailSchema = z.strictObject({
@@ -39,5 +40,4 @@ export {
   signInSchema,
   signUpSchema,
   verifyEmailSchema,
-  checkUsernameSchema,
 };

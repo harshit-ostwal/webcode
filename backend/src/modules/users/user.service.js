@@ -27,6 +27,16 @@ class UserService {
     return user;
   }
 
+  async checkUsernameAvailability(username) {
+    const existingUser = await this.#userRepo.findByUsername(username);
+
+    if (existingUser) {
+      throw ApiError.validationError(UserMessages.Errors.USERNAME_UNAVAILABLE);
+    }
+
+    return true;
+  }
+
   async findUserById(id) {
     return await this.#userRepo.findById(id);
   }

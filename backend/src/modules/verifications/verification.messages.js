@@ -6,6 +6,8 @@ const VerificationMessages = {
     OTP_EXPIRED: "OTP has expired. Please request a new OTP.",
     MAX_ATTEMPTS_EXCEEDED:
       "Maximum verification attempts exceeded. Please request a new OTP.",
+    MAX_RESENDS_EXCEEDED:
+      "Maximum OTP resend attempts exceeded. Please try again later.",
     VERIFICATION_ALREADY_COMPLETED: "Verification has already been completed.",
     VERIFICATION_GENERATION_FAILED:
       "Failed to generate verification. Please try again later.",

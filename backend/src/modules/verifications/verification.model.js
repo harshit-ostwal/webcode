@@ -22,6 +22,12 @@ const VerificationSchema = new Schema(
       min: [0, "Attempts cannot be less than 0"],
       max: [5, "Attempts cannot be more than 5"],
     },
+    resendCount: {
+      type: Number,
+      default: 0,
+      min: [0, "Resend count cannot be less than 0"],
+      max: [5, "Resend count cannot be more than 5"],
+    },
     verifiedAt: {
       type: Date,
       default: null,

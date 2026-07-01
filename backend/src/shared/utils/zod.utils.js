@@ -1,11 +1,5 @@
 import { z } from "zod/v4";
 import ApiError from "../../core/http/api.error.js";
-import {
-  REGEX_LOWERCASE,
-  REGEX_NUMBER,
-  REGEX_SPECIAL_CHAR,
-  REGEX_UPPERCASE,
-} from "../constants/regex.constants.js";
 
 const zString = (fieldName, minLength = 2, maxLength = 255) => {
   return z
@@ -85,19 +79,7 @@ const zPassword = (fieldName = "Password") => {
   return z
     .string({ error: `Invalid ${fieldName}` })
     .min(6, { error: `${fieldName} must be at least 6 characters long` })
-    .max(128, { error: `${fieldName} must be at most 128 characters long` })
-    .regex(REGEX_LOWERCASE, {
-      error: `${fieldName} must contain at least one lowercase letter`,
-    })
-    .regex(REGEX_UPPERCASE, {
-      error: `${fieldName} must contain at least one uppercase letter`,
-    })
-    .regex(REGEX_NUMBER, {
-      error: `${fieldName} must contain at least one number`,
-    })
-    .regex(REGEX_SPECIAL_CHAR, {
-      error: `${fieldName} must contain at least one special character`,
-    });
+    .max(128, { error: `${fieldName} must be at most 128 characters long` });
 };
 
 const zToken = (fieldName) => {
