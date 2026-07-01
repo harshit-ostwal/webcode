@@ -3,8 +3,8 @@ import { hashToken } from "../../core/security/hash.security.js";
 import { addMinutes } from "../../shared/utils/date.utils.js";
 import { generateOTP } from "../../shared/utils/otp.utils.js";
 import {
-  MAX_VERIFICATION_ATTEMPTS,
   MAX_RESEND_COUNT,
+  MAX_VERIFICATION_ATTEMPTS,
   VERIFICATION_EXPIRY_MINUTES,
 } from "./verification.contansts.js";
 import VerificationMessages from "./verification.messages.js";
@@ -135,7 +135,10 @@ class VerificationService {
     }
 
     const canResend = !this.#isMaxResendsReached(verification);
-    const resendsRemaining = Math.max(0, MAX_RESEND_COUNT - verification.resendCount);
+    const resendsRemaining = Math.max(
+      0,
+      MAX_RESEND_COUNT - verification.resendCount,
+    );
 
     return { canResend, resendsRemaining };
   }

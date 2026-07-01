@@ -17,4 +17,4 @@ const checkUsernameSchema = z.strictObject({
 
 const updateUserSchema = userSchema.partial();
 
-export { updateUserSchema, checkUsernameSchema };
+export { checkUsernameSchema, updateUserSchema };
