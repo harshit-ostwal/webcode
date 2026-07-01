@@ -99,6 +99,10 @@ class ApiResponse {
     return res.status(this.statusCode).json(this.toJSON());
   }
 
+  text(res, text = "OK") {
+    return res.status(this.statusCode).type("text/plain").send(text);
+  }
+
   static redirect(res, url, statusCode = HTTP_STATUS.FOUND) {
     if (!Number.isInteger(statusCode) || statusCode < 300 || statusCode > 399) {
       throw new TypeError(`Invalid HTTP redirect status code: ${statusCode}`);

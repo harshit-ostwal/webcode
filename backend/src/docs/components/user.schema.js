@@ -30,7 +30,7 @@
  *           nullable: true
  *
  *
- *      CheckUsernameRequest:
+ *     CheckUsernameRequest:
  *       type: object
  *       required:
  *         - username

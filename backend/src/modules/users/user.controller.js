@@ -14,7 +14,7 @@ class UserController {
     const username = req.params.username;
 
     await this.#userService.checkUsernameAvailability(username);
-    return ApiResponse.ok(null, UserMessages.Success.USERNAME_AVAILABLE).send(
+    return ApiResponse.ok(null, UserMessages.Success.USERNAME_AVAILABLE).text(
       res,
     );
   });
